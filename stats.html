@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="River — Personal finance tracker. Track expenses, plan budgets, and manage your money locally.">
+  <title>River — Statistics</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@flaticon/flaticon-uicons@3.3.1/css/all/all.min.css">
+  <link rel="stylesheet" href="css/styles.css?v=1.0.0">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <!-- Flatpickr Core & MonthSelect plugin -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('river_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
+</head>
+<body>
+
+<!-- Mobile toggle -->
+<button class="mobile-toggle" aria-label="Toggle menu"><i class="fi fi-sr-menu-burger"></i></button>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <span class="logo-emoji">🌊</span>
+    <span class="logo-text">River</span>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="index.html" class="nav-link"><i class="fi fi-sr-home"></i><span>Dashboard</span></a>
+    <a href="inflow.html" class="nav-link"><i class="fi fi-sr-sack-dollar"></i><span>Inflow</span></a>
+    <a href="transactions.html" class="nav-link"><i class="fi fi-sr-receipt"></i><span>Transactions</span></a>
+    <a href="stats.html" class="nav-link active"><i class="fi fi-sr-chart-histogram"></i><span>Statistics</span></a>
+    <a href="planning.html" class="nav-link"><i class="fi fi-sr-clipboard"></i><span>Planning</span></a>
+    <a href="cart.html" class="nav-link"><i class="fi fi-sr-shopping-cart"></i><span>Cart</span></a>
+    <a href="settings.html" class="nav-link"><i class="fi fi-sr-settings"></i><span>Settings</span></a>
+    <!-- Shortcuts Guide -->
+    <div class="sidebar-shortcuts" style="margin-top: 24px; padding-top: 16px; border-top: 1px dashed var(--glass-border); margin-bottom: 24px;">
+      <details class="shortcuts-details">
+        <summary style="font-size: 0.72rem; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; display: flex; align-items: center; gap: 6px; user-select: none;">
+          <i class="fi fi-sr-keyboard" style="font-size: 11px;"></i> Shortcuts
+          <i class="fi fi-sr-angle-small-down" style="margin-left: auto; font-size: 12px;"></i>
+        </summary>
+        <div class="shortcuts-details-content">
+          <table style="width: 100%; font-size: 0.75rem; border-collapse: collapse; color: var(--text2);">
+            <tbody>
+              <tr style="border-bottom: 1px solid rgba(148, 163, 184, 0.08);">
+                <td style="padding: 6px 0; font-weight: 500;">Quick Add</td>
+                <td style="padding: 6px 0; text-align: right;"><kbd style="background: var(--bg3); color: var(--text); padding: 2px 5px; border-radius: 4px; border: 1px solid var(--glass-border); font-family: inherit; font-size: 10px; font-weight: bold; box-shadow: 0 1px 1px rgba(0,0,0,0.1);">fn+T</kbd></td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(148, 163, 184, 0.08);">
+                <td style="padding: 6px 0; font-weight: 500;">Dashboard</td>
+                <td style="padding: 6px 0; text-align: right;"><kbd style="background: var(--bg3); color: var(--text); padding: 2px 5px; border-radius: 4px; border: 1px solid var(--glass-border); font-family: inherit; font-size: 10px; font-weight: bold; box-shadow: 0 1px 1px rgba(0,0,0,0.1);">fn+D</kbd></td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(148, 163, 184, 0.08);">
+                <td style="padding: 6px 0; font-weight: 500;">New Plan</td>
+                <td style="padding: 6px 0; text-align: right;"><kbd style="background: var(--bg3); color: var(--text); padding: 2px 5px; border-radius: 4px; border: 1px solid var(--glass-border); font-family: inherit; font-size: 10px; font-weight: bold; box-shadow: 0 1px 1px rgba(0,0,0,0.1);">fn+P</kbd></td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(148, 163, 184, 0.08);">
+                <td style="padding: 6px 0; font-weight: 500;">Ledger</td>
+                <td style="padding: 6px 0; text-align: right;"><kbd style="background: var(--bg3); color: var(--text); padding: 2px 5px; border-radius: 4px; border: 1px solid var(--glass-border); font-family: inherit; font-size: 10px; font-weight: bold; box-shadow: 0 1px 1px rgba(0,0,0,0.1);">fn+L</kbd></td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(148, 163, 184, 0.08);">
+                <td style="padding: 6px 0; font-weight: 500;">Stats</td>
+                <td style="padding: 6px 0; text-align: right;"><kbd style="background: var(--bg3); color: var(--text); padding: 2px 5px; border-radius: 4px; border: 1px solid var(--glass-border); font-family: inherit; font-size: 10px; font-weight: bold; box-shadow: 0 1px 1px rgba(0,0,0,0.1);">fn+S</kbd></td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(148, 163, 184, 0.08);">
+                <td style="padding: 6px 0; font-weight: 500;">Settings</td>
+                <td style="padding: 6px 0; text-align: right;"><kbd style="background: var(--bg3); color: var(--text); padding: 2px 5px; border-radius: 4px; border: 1px solid var(--glass-border); font-family: inherit; font-size: 10px; font-weight: bold; box-shadow: 0 1px 1px rgba(0,0,0,0.1);">fn+G</kbd></td>
+              </tr>
+              <tr>
+                <td style="padding: 6px 0; font-weight: 500;">Mobile Hold</td>
+                <td style="padding: 6px 0; text-align: right; color: var(--text3); font-size: 10px; font-style: italic;">Quick Add</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </div>
+
+    <div style="margin-top: auto; padding-top: 12px; border-top: 1px solid var(--glass-border);">
+      <button class="nav-link" id="theme-toggle" onclick="toggleTheme()" style="width:100%; border:none; background:none; text-align:left; cursor:pointer; font-family:inherit;">
+        <i class="fi fi-sr-sun"></i>
+        <span>Light Mode</span>
+      </button>
+    </div>
+  </nav>
+</aside>
+
+<!-- Main Content -->
+<main class="main">
+
+<div class="page-header fade-in">
+  <h1>Financial Statistics</h1>
+  <p>Easy-to-understand insights, visual graphs, and dynamic savings analyses</p>
+</div>
+
+<!-- Friendly Health Check & Metrics Overview -->
+<div class="card-grid card-grid-3 fade-in" style="margin-bottom: 24px;">
+  <!-- Savings Rate -->
+  <div class="card stat-card stat-balance" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; min-height: 180px;">
+    <div style="font-size: .85rem; font-weight: 600; color: var(--text2); letter-spacing: 0.5px; text-transform: uppercase;">Savings Rate</div>
+    <div style="font-size: 2.5rem; font-weight: 700; color: #34d399;" id="stat-savings-rate">0%</div>
+    <div style="font-size: .8rem; color: var(--text3);" id="stat-savings-label">No income logged yet</div>
+  </div>
+
+  <!-- Burn Rate -->
+  <div class="card stat-card stat-spent" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; min-height: 180px;">
+    <div style="font-size: .85rem; font-weight: 600; color: var(--text2); letter-spacing: 0.5px; text-transform: uppercase;">Daily Burn Rate</div>
+    <div style="font-size: 2.2rem; font-weight: 700; color: #fb7185;" id="stat-burn-rate">৳0</div>
+    <div style="font-size: .8rem; color: var(--text3);">Average spent per day</div>
+  </div>
+
+  <!-- Financial Diagnosis -->
+  <div class="card stat-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; min-height: 180px; border-color: var(--advice-card-border);">
+    <div style="font-size: .85rem; font-weight: 600; color: var(--text2); letter-spacing: 0.5px; text-transform: uppercase;">Health Diagnosis</div>
+    <div style="font-size: 1.25rem; font-weight: 600; text-align: center; line-height: 1.4;" class="text-purple-dynamic" id="stat-health-status">🌱 Loading analysis...</div>
+    <div style="font-size: .8rem; color: var(--text3); text-align: center;" id="stat-health-desc">Financial advice tailored for you</div>
+  </div>
+</div>
+
+<!-- Friendly Normal Person Insights Panel -->
+<div class="card fade-in advice-card" style="margin-bottom: 24px;">
+  <h3 style="margin-bottom: 16px; font-size: 1.15rem; display: flex; align-items: center; gap: 8px;" class="text-purple-dynamic">
+    <i class="fi fi-sr-bulb" style="font-size: 1.2rem;"></i> Actions & Practical Advice
+  </h3>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;" class="card-grid-2">
+    <div>
+      <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; color: var(--text);">The 50/30/20 Spending Rule</h4>
+      <p style="color: var(--text2); font-size: 0.85rem; line-height: 1.5; margin-bottom: 12px;">
+        A standard healthy financial practice suggests spending <strong>50% on Needs</strong>, <strong>30% on Wants</strong>, and saving at least <strong>20%</strong>. Here is how your real spending compares:
+      </p>
+      <div style="display: flex; flex-direction: column; gap: 8px;" id="rule-comparison-container">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+    
+    <div>
+      <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; color: var(--text);">Habits & Behaviors</h4>
+      <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85rem;" id="insights-list">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Visual Graphs Layer -->
+<div class="card-grid card-grid-2 fade-in" style="margin-bottom: 24px;">
+  <!-- Cumulative Net Worth Line Chart -->
+  <div class="card">
+    <h3 style="margin-bottom: 16px; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+      <i class="fi fi-sr-chart-line-up" style="color: #34d399;"></i> Savings & Balance Growth Over Time
+    </h3>
+    <div style="position: relative; height: 280px; display: flex; align-items: center; justify-content: center;">
+      <canvas id="balance-trend-chart"></canvas>
+      <div id="balance-trend-empty" class="empty-state" style="display:none;">
+        <p>Log transactions and inflows to see your savings curve grow!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inflow vs Outflow Comparison Bar Chart -->
+  <div class="card">
+    <h3 style="margin-bottom: 16px; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+      <i class="fi fi-sr-chart-histogram" style="color: #60a5fa;"></i> Inflow vs Outflow (Monthly Trends)
+    </h3>
+    <div style="position: relative; height: 280px; display: flex; align-items: center; justify-content: center;">
+      <canvas id="monthly-compare-chart"></canvas>
+      <div id="monthly-compare-empty" class="empty-state" style="display:none;">
+        <p>No historical monthly comparison data available yet.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Detailed Expenses & Inflow Breakdown -->
+<div class="card-grid card-grid-2 fade-in">
+  <!-- Interactive Category Breakdown -->
+  <div class="card">
+    <h3 style="margin-bottom: 16px; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+      <i class="fi fi-sr-chart-pie" style="color: #a78bfa;"></i> Spending Categories
+    </h3>
+    <div style="position: relative; height: 280px; display: flex; align-items: center; justify-content: center;">
+      <canvas id="category-donut-chart"></canvas>
+      <div id="category-donut-empty" class="empty-state" style="display:none;">
+        <p>No spending category data logged.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Peak Spending Analysis -->
+  <div class="card">
+    <h3 style="margin-bottom: 16px; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+      <i class="fi fi-sr-calendar-exclamation" style="color: #f43f5e;"></i> Peak Spending Days
+    </h3>
+    <div style="position: relative; height: 280px; display: flex; align-items: center; justify-content: center;">
+      <canvas id="day-bar-chart"></canvas>
+      <div id="day-bar-empty" class="empty-state" style="display:none;">
+        <p>Log transactions to analyze peak spending days.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</main><!-- /.main -->
+
+<script src="js/app.js?v=1.0.0"></script>
+<script src="js/stats.js?v=1.0.0"></script>
+
+<script>
+  (function() {
+    function updateThemeUI() {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+      const btn = document.getElementById('theme-toggle');
+      if (btn) {
+        const icon = btn.querySelector('i');
+        const text = btn.querySelector('span');
+        if (currentTheme === 'light') {
+          if (icon) icon.className = 'fi fi-sr-moon';
+          if (text) text.textContent = 'Dark Mode';
+        } else {
+          if (icon) icon.className = 'fi fi-sr-sun';
+          if (text) text.textContent = 'Light Mode';
+        }
+      }
+    }
+
+    window.toggleTheme = function() {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('river_theme', next);
+      updateThemeUI();
+
+      // Dispatch event so chart-heavy pages can re-render with new theme colors
+      window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: next } }));
+    };
+
+    document.addEventListener('DOMContentLoaded', updateThemeUI);
+  })();
+</script>
+</body>
+</html>
